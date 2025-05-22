@@ -6,7 +6,7 @@ passport.serializeUser(function (user, done) {
     done(null, user)
 })
 
-passport.serializeUser(function (obj, done) {
+passport.deserializeUser(function (obj, done) {
     done(null, obj)
 })
 

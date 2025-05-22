@@ -37,6 +37,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne(email, password)
     try {
         if (user) {
+            req.session.user = user
             res.redirect('/members')
         } else {
             res.render('index')
@@ -48,11 +49,18 @@ exports.login = async (req, res, next) => {
 }
 
 exports.checkAuth = (req, res, next) => {
-    const auth = true
-
-    if (auth) {
+    if (req.session && req.session.user) {
         next()
     } else {
         res.redirect('/')
     }
+}
+
+exports.logout = (req, res, next) => {
+    req.session.destroy(error => {
+        if (error) {
+            console.log(error)
+        }
+        res.redirect('/')
+    })
 }
